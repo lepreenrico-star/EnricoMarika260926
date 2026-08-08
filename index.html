@@ -409,6 +409,46 @@
     color:var(--ink-soft);
     letter-spacing:.08em;
   }
+
+  .music-toggle{
+    position:fixed;
+    right:18px;
+    bottom:calc(18px + env(safe-area-inset-bottom, 0px));
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    border:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--rust);
+    color:var(--cream);
+    box-shadow:0 4px 16px rgba(0,0,0,.22);
+    cursor:pointer;
+    z-index:50;
+    transition:background .2s ease, transform .2s ease;
+  }
+  .music-toggle:hover{background:var(--rust-deep);}
+  .music-toggle:active{transform:scale(.94);}
+  .music-toggle::after{
+    content:"";
+    position:absolute;
+    inset:-6px;
+    border-radius:50%;
+    border:1px solid var(--rust);
+    opacity:0;
+  }
+  .music-toggle.is-playing::after{
+    opacity:.55;
+    animation:pulse-ring 1.8s ease-out infinite;
+  }
+  @keyframes pulse-ring{
+    0%{ transform:scale(.9); opacity:.55; }
+    100%{ transform:scale(1.35); opacity:0; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .music-toggle.is-playing::after{animation:none; opacity:.35;}
+  }
 </style>
 
 <div class="page">
@@ -529,6 +569,17 @@
 
 </div>
 
+<audio id="bg-music" loop preload="none">
+  <source src="musica.m4a" type="audio/mp4">
+</audio>
+<button id="music-toggle" class="music-toggle" type="button" aria-pressed="false" aria-label="Attiva la musica">
+  <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+    <path d="M9 17V5.6a1 1 0 0 1 1.24-.97l8 2A1 1 0 0 1 19 7.6V17" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="6.5" cy="17" r="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
+    <circle cx="16.5" cy="17" r="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
+  </svg>
+</button>
+
 <script>
 (function(){
   var presenza = document.getElementById('presenza');
@@ -599,6 +650,23 @@
       copyBtn.textContent = 'Copiato ✓';
       setTimeout(function(){ copyBtn.textContent = 'Copia IBAN'; }, 1800);
     });
+  });
+
+  var music = document.getElementById('bg-music');
+  var musicToggle = document.getElementById('music-toggle');
+  musicToggle.addEventListener('click', function(){
+    if(music.paused){
+      music.play().then(function(){
+        musicToggle.classList.add('is-playing');
+        musicToggle.setAttribute('aria-pressed', 'true');
+        musicToggle.setAttribute('aria-label', 'Metti in pausa la musica');
+      }).catch(function(){});
+    } else {
+      music.pause();
+      musicToggle.classList.remove('is-playing');
+      musicToggle.setAttribute('aria-pressed', 'false');
+      musicToggle.setAttribute('aria-label', 'Attiva la musica');
+    }
   });
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
