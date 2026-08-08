@@ -569,7 +569,7 @@
 
 </div>
 
-<audio id="bg-music" loop preload="none">
+<audio id="bg-music" loop preload="auto">
   <source src="musica.m4a" type="audio/mp4">
 </audio>
 <button id="music-toggle" class="music-toggle" type="button" aria-pressed="false" aria-label="Attiva la musica">
@@ -654,19 +654,39 @@
 
   var music = document.getElementById('bg-music');
   var musicToggle = document.getElementById('music-toggle');
-  musicToggle.addEventListener('click', function(){
+
+  function syncMusicUI(){
     if(music.paused){
-      music.play().then(function(){
-        musicToggle.classList.add('is-playing');
-        musicToggle.setAttribute('aria-pressed', 'true');
-        musicToggle.setAttribute('aria-label', 'Metti in pausa la musica');
-      }).catch(function(){});
-    } else {
-      music.pause();
       musicToggle.classList.remove('is-playing');
       musicToggle.setAttribute('aria-pressed', 'false');
       musicToggle.setAttribute('aria-label', 'Attiva la musica');
+    } else {
+      musicToggle.classList.add('is-playing');
+      musicToggle.setAttribute('aria-pressed', 'true');
+      musicToggle.setAttribute('aria-label', 'Metti in pausa la musica');
     }
+  }
+  music.addEventListener('play', syncMusicUI);
+  music.addEventListener('pause', syncMusicUI);
+
+  musicToggle.addEventListener('click', function(){
+    if(music.paused){ music.play().catch(function(){}); }
+    else { music.pause(); }
+  });
+
+  // Autoplay: i browser mobili bloccano l'audio finché l'utente non interagisce
+  // almeno una volta con la pagina, quindi ci proviamo subito e, se fallisce,
+  // partiamo al primo tocco/click/scroll ovunque sulla pagina.
+  var startOnFirstInteraction = function(){
+    music.play().catch(function(){});
+    ['pointerdown', 'touchstart', 'keydown', 'scroll'].forEach(function(evt){
+      document.removeEventListener(evt, startOnFirstInteraction);
+    });
+  };
+  music.play().catch(function(){
+    ['pointerdown', 'touchstart', 'keydown', 'scroll'].forEach(function(evt){
+      document.addEventListener(evt, startOnFirstInteraction, {once:true, passive:true});
+    });
   });
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
