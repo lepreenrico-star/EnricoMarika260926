@@ -215,6 +215,8 @@
     margin-bottom:28px;
   }
   #dettagli .section-title{font-size:42px; margin-bottom:34px;}
+  #rsvp .section-title{font-size:42px; margin-bottom:34px;}
+  #rsvp .rsvp-note{font-size:24px;}
 
   .cards{
     display:grid;
@@ -298,9 +300,9 @@
     display:grid;
     gap:18px;
   }
-  .field{display:grid; gap:6px;}
+  .field{display:grid; gap:8px;}
   .field label{
-    font-size:14px;
+    font-size:18px;
     letter-spacing:.1em;
     text-transform:uppercase;
     color:var(--olive);
@@ -310,12 +312,12 @@
   .field input[type="number"],
   .field select{
     font-family:inherit;
-    font-size:19px;
+    font-size:25px;
     color:var(--ink);
     background:var(--panel);
     border:1px solid var(--panel-line);
     border-radius:2px;
-    padding:12px 14px;
+    padding:16px 18px;
   }
   .field input::placeholder{color:var(--ink-soft); opacity:.7;}
   .row-2{display:grid; gap:18px;}
@@ -327,9 +329,9 @@
   .btn{
     display:inline-block;
     justify-self:center;
-    margin-top:6px;
+    margin-top:8px;
     font-family:'Cormorant Garamond', serif;
-    font-size:19px;
+    font-size:25px;
     font-weight:600;
     letter-spacing:.04em;
     text-decoration:none;
@@ -337,7 +339,7 @@
     background:var(--rust);
     border:none;
     border-radius:2px;
-    padding:14px 34px;
+    padding:18px 44px;
     cursor:pointer;
     transition:background .2s ease, transform .2s ease;
   }
@@ -347,7 +349,7 @@
 
   .form-status{
     text-align:center;
-    font-size:15px;
+    font-size:20px;
     color:var(--olive);
     min-height:1.4em;
   }
@@ -502,7 +504,7 @@
 
       <a href="#" id="whatsapp-btn" class="btn is-disabled" aria-disabled="true">Invia conferma su WhatsApp</a>
       <p class="form-status" id="form-status" role="status">Compila nome e presenza per attivare l'invio.</p>
-      <p class="rsvp-note" style="margin-top:2px; font-size:15px;">Se il pulsante non apre WhatsApp, scrivi tu il messaggio al numero <a href="tel:+393297065461">+39 329 706 5461</a>.</p>
+      <p class="rsvp-note" style="margin-top:4px; font-size:19px;">Se il pulsante non apre WhatsApp, scrivi tu il messaggio al numero <a href="tel:+393297065461">+39 329 706 5461</a>.</p>
     </form>
   </section>
 
