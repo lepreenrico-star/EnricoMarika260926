@@ -339,6 +339,12 @@
     padding:16px 18px;
   }
   .field input::placeholder{color:var(--ink-soft); opacity:.7;}
+  .field-hint{
+    font-size:16px;
+    font-style:italic;
+    color:var(--ink-soft);
+    margin:0;
+  }
   .row-2{display:grid; gap:18px;}
   @media (min-width:520px){ .row-2{grid-template-columns:1fr 1fr;} }
 
@@ -560,7 +566,8 @@
 
       <div class="field">
         <label for="allergie">Allergie o intolleranze (facoltativo)</label>
-        <input type="text" id="allergie" name="allergie" placeholder="Es. nessuna">
+        <input type="text" id="allergie" name="allergie" placeholder="Es. Mario Rossi: intolleranza al lattosio">
+        <p class="field-hint">Se siete più persone, specifica nome e cognome di chi ha l'allergia o l'intolleranza.</p>
       </div>
 
       <a href="#" id="whatsapp-btn" class="btn is-disabled" aria-disabled="true">Invia conferma su WhatsApp</a>
